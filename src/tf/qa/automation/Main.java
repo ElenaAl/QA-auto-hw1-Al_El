@@ -1,61 +1,76 @@
 package tf.qa.automation;
 
-import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("Введите номер телефона:");
-        Scanner sc = new Scanner(System.in);
-        String phone = sc.nextLine();
-        sc.close();
+        int[] x = new int[]{8, 1, 4, 2, 20, 9, -5,500,-150};
 
-        String spacebr = "В номере есть пробелы и/или скобки";
-        String wrongN="Введен некорректный номер";
-        String replace = "Замена +7 на 8";
-        String overfloat="Количество символов больше 11";
-        String check="Список изменений и сработавших проверок на некорректность: ";
-        if(phone.length()<11)
-        {
-            System.out.println(wrongN); //Введен некорректный номер
+        System.out.println("До сортировки");
+        for (int i = 0; i < x.length; i++) {
+
+            System.out.print(x[i] + " ");
         }
-        else { // если больше или равно 11
-            phone = phone.replace("(", "");
-            phone = phone.replace(")", "");
-            phone = phone.replace(" ", "");
 
-            if (phone.length() == 11) { //если =11
-                phone = phone.replace("+7", "8");
-                if (phone.length() < 11) {
-                    System.out.println(wrongN); //Введен некорректный номер
-                }
-                else {
-                    System.out.println(check+spacebr); //"В номере есть пробелы и/или скобки"
-                }
-            } else {
-                if (phone.length() > 11) { // если все еще >11, хотя удалили все скобки
-                      phone = phone.replace("+7", "8");
-                    if (phone.length() == 11){
-                        System.out.println(check+replace+"; "+spacebr); //"Замена +7 на 8";
-                    }
-                    else {
-                        if (phone.length() > 11){
-                            System.out.println(wrongN);
-                            System.out.println(check+overfloat);
-                        }
-                        else {
-                            System.out.println(phone); // изначально корректный номер
-                            System.out.println(check+"Не было изменений");
-                        }
-                    }
+        int low = 0;
+        int high = x.length - 1;
 
-                }
+        tanosSort(x, low, high);
+
+        System.out.println("\nПосле");
+        for (int i = 0; i < x.length; i++) {
+
+            System.out.print(x[i] + " ");
+       }
+
+    }
+
+    public static void tanosSort(int[] array,int low,int high ) {
+
+        if (array.length == 0)
+            return;//завершить выполнение если длина массива равна 0
+
+        if (low >= high)
+            return;//завершить выполнение если нечего делить
+
+        int sum = 0;
+        int count = 0;
+        int i = low, j = high;
+        int i2=0;
+        for (i2 = low; i2 < high; i2++) {
+            sum += array[i2];
+            count++;
+        }
+        int average = sum / count;
+
+
+        while (i <= j) {
+            while (array[i] < average) {
+                i++;
+
+            }
+
+            while (array[j] > average) {
+                j--;
+            }
+
+            if (i <= j) {
+
+                int buffer = array[i];
+                array[i] = array[j];
+                array[j] = buffer;
+                i++;
+                j--;
             }
         }
 
+        if (low < j)
+            tanosSort(array,low, j);
 
+        if (high > i)
+            tanosSort(array, i, high);
+
+        }
 
     }
-}
-
