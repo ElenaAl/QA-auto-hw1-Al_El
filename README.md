@@ -1,2 +1,2 @@
 # QA-auto-hw1-Al_El
-домашнее задание #1 по курсу QA automation
+домашнее задание (2.4.) по курсу QA automation
